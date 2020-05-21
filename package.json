@@ -1,0 +1,56 @@
+{
+  "name": "@ttoss/aws-appsync-backend",
+  "version": "0.1.0",
+  "description": "AWS AppSync client for backend.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttoss/aws-appsync-backend.git"
+  },
+  "keywords": [
+    "aws-appsync",
+    "nodejs"
+  ],
+  "author": {
+    "name": "Pedro Arantes",
+    "email": "arantespp@gmail.com",
+    "url": "https://twitter.com/arantespp"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ttoss/aws-appsync-backend/issues"
+  },
+  "homepage": "https://github.com/ttoss/aws-appsync-backend#readme",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link": "^1.2.14",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "^1.5.17",
+    "aws-appsync-auth-link": "^2.0.2",
+    "aws-appsync-subscription-link": "^2.1.0",
+    "cross-fetch": "^3.0.4",
+    "graphql": "^15.0.0",
+    "graphql-tag": "^2.10.3",
+    "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.2.4",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  }
+}
