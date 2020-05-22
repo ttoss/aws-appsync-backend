@@ -36,7 +36,7 @@ export const AwsAppSyncBackend = ({
   url: string;
   auth: AuthOptions;
 }) => {
-  const fetchPolicy = 'network-only';
+  const fetchPolicy = 'no-cache';
   const region = getRegionFromUrl(url);
   const httpLink = createHttpLink({ uri: url });
   const appSyncLink = createAuthLink({ url, region, auth });

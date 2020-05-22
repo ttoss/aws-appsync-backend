@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  AppSyncGraphQLApi:
+    Type: AWS::AppSync::GraphQLApi
+    Description: AppSync GraphQLApi
+    Properties:
+      AuthenticationType: API_KEY
+      Name: CoolChatAPI
+
+  AppSyncApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId: !GetAtt AppSyncGraphQLApi.ApiId
+
+  NoneAppSyncDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt AppSyncGraphQLApi.ApiId
+      Name: NoneAppSyncDataSource
+      Description: AppSync none data source
+      Type: NONE
+
+  ### Definition of SchemaGraphQL
+  AppSyncGraphQLSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    DependsOn: AppSyncGraphQLApi
+    Properties:
+      ApiId: !GetAtt AppSyncGraphQLApi.ApiId
+      Definition: |
+        type Message {
+          author: String!
+          dateTime: AWSDateTime!
+          content: String!
+        }
+        type Query {
+          oldMessages: [Message!]
+        }
+        type Mutation {
+          sendMessage(author: String!, content: String!): Message!
+        }
+        type Subscription {
+          sentMessage: Message
+          @aws_subscribe(mutations: ["sendMessage"])
+        }
+        schema {
+          query: Query
+          mutation: Mutation
+          subscription: Subscription
+        }
+
+  QueryOldMessagesAppSyncResolver:
+    Type: AWS::AppSync::Resolver
+    DependsOn: AppSyncGraphQLSchema
+    Properties:
+      ApiId: !GetAtt AppSyncGraphQLApi.ApiId
+      FieldName: oldMessages
+      TypeName: Query
+      DataSourceName: !GetAtt NoneAppSyncDataSource.Name
+      RequestMappingTemplate: |
+        {
+          "version": "2017-02-28",
+          "payload": ""
+        }
+      ResponseMappingTemplate: |
+        #set($messages = [])
+        $util.qr($messages.add({
+          "author": "Pedro",
+          "content": "Hello World",
+          "dateTime": "2019-07-27T10:06:00Z"
+        }))
+        $util.qr($messages.add({
+          "author": "arantespp",
+          "content": "Hi, Pedro",
+          "dateTime": "2019-07-27T10:16:02Z"
+        }))
+        $util.toJson($messages)
+
+  MutationSendMessageAppSyncResolver:
+    Type: AWS::AppSync::Resolver
+    DependsOn: AppSyncGraphQLSchema
+    Properties:
+      ApiId: !GetAtt AppSyncGraphQLApi.ApiId
+      FieldName: sendMessage
+      TypeName: Mutation
+      DataSourceName: !GetAtt NoneAppSyncDataSource.Name
+      RequestMappingTemplate: |
+        {
+          "version": "2017-02-28",
+          "payload": $utils.toJson($ctx.args)
+        }
+      ResponseMappingTemplate: |
+        #set($ctx.result.dateTime = $util.time.nowISO8601())
+        $util.toJson($ctx.result)
+
+Outputs:
+  ApiKey:
+    Value: !GetAtt AppSyncApiKey.ApiKey
+
+  Url:
+    Value: !GetAtt AppSyncGraphQLApi.GraphQLUrl
