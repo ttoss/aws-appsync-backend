@@ -1,6 +1,6 @@
 {
   "name": "@ttoss/aws-appsync-backend",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "AWS AppSync client for backend.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
