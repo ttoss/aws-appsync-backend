@@ -6,7 +6,7 @@ Resources:
     Description: AppSync GraphQLApi
     Properties:
       AuthenticationType: API_KEY
-      Name: CoolChatAPI
+      Name: AWSAppSyncBackendCoolChatAPI
 
   AppSyncApiKey:
     Type: AWS::AppSync::ApiKey

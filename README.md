@@ -10,13 +10,13 @@ This client is a [Apollo JavaScript client](https://github.com/apollographql/apo
 
 #### npm
 
-```
+```shell
 npm install --save @ttoss/aws-appsync-backend
 ```
 
 #### yarn
 
-```
+```shell
 yarn add @ttoss/aws-appsync-backend
 ```
 
@@ -26,7 +26,7 @@ yarn add @ttoss/aws-appsync-backend
 
 **You must have AWS CLI installed and have the permissions to create AWS AppSync resources.**
 
-_\*note: in this section, we'll use `CoolChat` as the stack name, but you may choose any name you want._
+_\*note: in this section, we'll use `AWSAppSyncBackendCoolChat` as the stack name, but you may choose any name you want._
 
 ### Deploy AWS AppSync API
 
@@ -34,13 +34,13 @@ We've provided a [simple chat example](example/cloudformation.yml) using a Cloud
 
 To deploy the API, run this command:
 
-```
-$ aws cloudformation deploy --stack-name CoolChat --template-file ./path_to_template/cloudformation.yml
+```shell
+$ aws cloudformation deploy --stack-name AWSAppSyncBackendCoolChat --template-file ./path_to_template/cloudformation.yml
 ```
 
 Also, you may clone this project and run the command:
 
-```
+```shell
 $ npm run example:deploy
 ```
 
@@ -50,13 +50,13 @@ After deployed, you can get the URL and API key accessing the AWS AppSync or the
 
 Also, you can get them running the command:
 
-```
-$ aws cloudformation describe-stacks --stack-name CoolChat --query 'Stacks[0].Outputs'
+```shell
+$ aws cloudformation describe-stacks --stack-name AWSAppSyncBackendCoolChat --query 'Stacks[0].Outputs'
 ```
 
 Which will return something like this:
 
-```
+```yml
 - OutputKey: ApiKey
   OutputValue: da2-rvbbc6xzkXXXXXXX
 - OutputKey: Url
@@ -67,7 +67,7 @@ Which will return something like this:
 
 #### Create the client
 
-```
+```ts
 import { AwsAppSyncBackend, AuthOptions, AUTH_TYPE, gql } from '@ttoss/aws-appsync-backend';
 
 const url = ... // your URL here
@@ -82,7 +82,7 @@ const awsAppSyncBackend = AwsAppSyncBackend({ url, auth });
 
 #### Query
 
-```
+```ts
 awsAppSyncBackend
   .query({
     query: gql`
@@ -106,7 +106,7 @@ awsAppSyncBackend
 
 #### Mutation
 
-```
+```ts
 const author = 'Pedro';
 const content = 'Hello again!';
 
@@ -134,7 +134,7 @@ awsAppSyncBackend
 
 #### Subscription
 
-```
+```ts
 awsAppSyncBackend
   .subscribe({
     query: gql`
@@ -161,7 +161,7 @@ awsAppSyncBackend
 
 If you want to use the [example](example/example.ts) we've created, you just need to run these commands:
 
-```
+```shell
 $ npm run example:query
 $ npm run example:mutation -- --author Pedro --content "Hi"
 $ npm run example:subscription
@@ -171,15 +171,19 @@ $ npm run example:subscription
 
 Finally, you may want to destroy the stack created running the command:
 
-```
-$ aws cloudformation destroy --stack-name CoolChat
+```shell
+$ aws cloudformation destroy --stack-name AWSAppSyncBackendCoolChat
 ```
 
 If you're using our example:
 
-```
+```shell
 $ npm run destroy
 ```
+
+## Author
+
+- [Pedro Arantes](https://twitter.com/arantespp)
 
 ---
 
