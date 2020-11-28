@@ -8,7 +8,6 @@
     "dist/"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "prepare": "npm run build",
     "example:deploy": "aws cloudformation deploy --stack-name AWSAppSyncBackendCoolChat --template-file ./example/cloudformation.yml",
