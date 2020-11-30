@@ -6,7 +6,6 @@ import WebSocket from 'ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import ApolloClient from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
-import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
 import { createAuthLink, AuthOptions, AUTH_TYPE } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
@@ -18,16 +17,6 @@ export { AUTH_TYPE };
 export type { AuthOptions };
 
 export { default as gql } from 'graphql-tag';
-
-const fullLog = (obj: any) => JSON.stringify(obj, null, 2);
-
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach((graphQLError) =>
-      console.error(`[GraphQL error]: \n${fullLog(graphQLError)} \n\n`)
-    );
-  if (networkError) console.error(`[Network error]: ${fullLog(networkError)}`);
-});
 
 export const AwsAppSyncBackend = ({
   url,
@@ -44,11 +33,7 @@ export const AwsAppSyncBackend = ({
     url,
     httpLink
   );
-  const link = ApolloLink.from([
-    errorLink,
-    appSyncLink,
-    appSyncSubscriptionLink,
-  ]);
+  const link = ApolloLink.from([appSyncLink, appSyncSubscriptionLink]);
   return new ApolloClient({
     link,
     cache: new InMemoryCache(),

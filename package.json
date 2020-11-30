@@ -37,11 +37,9 @@
   },
   "homepage": "https://github.com/ttoss/aws-appsync-backend#readme",
   "dependencies": {
-    "@apollo/client": "^3.2.9",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
-    "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "aws-appsync-auth-link": "^2.0.0",
     "aws-appsync-subscription-link": "^2.0.0",
